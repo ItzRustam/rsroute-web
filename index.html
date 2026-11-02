@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>RSRoute — One API for every LLM</title>
+  <meta name="description" content="RSRoute is a self-hostable FastAPI gateway that puts one unified REST API in front of Gemini, Mistral, Groq and OpenRouter. Centralised keys, one master key, zero provider lock-in." />
+  <meta name="theme-color" content="#f7f8fc" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#070a12" media="(prefers-color-scheme: dark)" />
+  <meta name="color-scheme" content="light dark" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="RSRoute — One API for every LLM" />
+  <meta property="og:description" content="Self-hostable FastAPI gateway providing a unified REST API for multiple LLM providers, powered by LangChain." />
+  <meta property="og:image" content="assets/img/logo.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg" />
+  <link rel="apple-touch-icon" href="assets/img/logo.svg" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <!-- Theme must be resolved before first paint -->
+  <script src="assets/js/theme-init.js"></script>
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ================= HEADER ================= -->
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <a class="brand" href="#top" aria-label="RSRoute home">
+        <img src="assets/img/logo.svg" alt="" width="34" height="34" />
+        <span>RSRoute</span>
+      </a>
+
+      <nav class="nav" id="primaryNav" aria-label="Primary">
+        <a href="#overview">Overview</a>
+        <a href="#features">Features</a>
+        <a href="#api">API</a>
+        <a href="#quickstart">Quickstart</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="theme-toggle" id="themeToggle" type="button"
+                aria-label="Switch to dark theme" title="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" />
+          </svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4" />
+            <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+          </svg>
+        </button>
+
+        <a class="btn btn--primary btn--sm" href="#quickstart">
+          Get started
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </a>
+
+        <button class="menu-toggle" id="menuToggle" type="button"
+                aria-expanded="false" aria-controls="primaryNav" aria-label="Open menu">
+          <svg class="icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16" />
+          </svg>
+          <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ================= HERO ================= -->
+    <section class="hero" id="top">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <span class="hero-badge">
+            <span class="dot" aria-hidden="true"></span>
+            v1 starter &middot; in development
+          </span>
+
+          <h1>One API for <span class="grad-text">every LLM</span>.</h1>
+
+          <p class="lede">
+            RSRoute is a self-hostable FastAPI gateway that sits in front of Gemini,
+            Mistral, Groq and OpenRouter. Your apps call one endpoint with one payload
+            and one master key — RSRoute handles the provider plumbing.
+          </p>
+
+          <div class="hero-cta">
+            <a class="btn btn--primary" href="#quickstart">
+              Start routing
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </a>
+            <a class="btn btn--ghost" href="#api">
+              Explore the API
+            </a>
+          </div>
+
+          <dl class="hero-stats">
+            <div>
+              <dt>4</dt>
+              <dd>Providers</dd>
+            </div>
+            <div>
+              <dt>1</dt>
+              <dd>Master key</dd>
+            </div>
+            <div>
+              <dt>0</dt>
+              <dd>Rewrites</dd>
+            </div>
+            <div>
+              <dt>100%</dt>
+              <dd>Self-hosted</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="hero-visual">
+          <div class="route-card">
+            <div class="route-card__bar" aria-hidden="true">
+              <i></i><i></i><i></i>
+              <span>POST /v1/&#123;provider&#125;/chat</span>
+            </div>
+            <div class="route-card__body">
+              <div class="route-flow">
+                <div class="route-node">your&nbsp;app</div>
+                <span class="route-arrow" aria-hidden="true"></span>
+                <div class="route-node route-node--core">
+                  <img src="assets/img/logo-mark.svg" alt="" width="18" height="18" />
+                  RSRoute
+                </div>
+                <span class="route-arrow" aria-hidden="true"></span>
+                <div class="route-providers">
+                  <span class="pill">gemini</span>
+                  <span class="pill">mistral</span>
+                  <span class="pill">groq</span>
+                </div>
+              </div>
+              <div class="route-card__foot">
+                <span class="chip chip--ok">&#9679; 200 OK</span>
+                <span class="chip">unified envelope</span>
+                <span class="chip">stateless</span>
+                <span class="chip">Docker-ready</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PROVIDER STRIP ================= -->
+    <div class="logo-strip">
+      <div class="container logo-strip__inner">
+        <span class="logo-strip__label">Routes to</span>
+        <span class="provider-name">Google Gemini</span>
+        <span class="provider-name">MistralAI</span>
+        <span class="provider-name">Groq</span>
+        <span class="provider-name">OpenRouter</span>
+        <span class="provider-name">OpenAI <span class="chip">soon</span></span>
+        <span class="provider-name">HuggingFace <span class="chip">soon</span></span>
+      </div>
+    </div>
+
+    <!-- ================= OVERVIEW / PROBLEM ================= -->
+    <section class="section" id="overview">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">The problem</span>
+          <h2>Every project shouldn't rebuild the same LLM plumbing.</h2>
+          <p>
+            Without a gateway, each app embeds its own provider client, its own key
+            management and its own error handling. RSRoute collapses that duplication
+            into a single service you run yourself.
+          </p>
+        </div>
+
+        <div class="compare">
+          <div class="compare__panel compare__panel--before reveal">
+            <span class="compare__tag compare__tag--before">Without RSRoute</span>
+            <div class="tree">
+<pre style="padding:0;background:none;border:0;overflow:visible"><b>Project A</b>
+├── Setup Mistral client
+├── Setup OpenRouter client
+├── Manage API keys
+└── Handle provider errors
+
+<b>Project B</b>
+└── <span class="bad">Repeat everything again…</span>
+
+<b>Project C</b>
+└── <span class="bad">…and again</span></pre>
+            </div>
+          </div>
+
+          <div class="compare__panel compare__panel--after reveal">
+            <span class="compare__tag compare__tag--after">With RSRoute</span>
+            <div class="tree">
+<pre style="padding:0;background:none;border:0;overflow:visible"><b>Project A</b> ─┐
+<b>Project B</b> ─┼──▶ <b>RSRoute</b> ──▶ <span class="good">LLM Providers</span>
+<b>Project C</b> ─┘        │
+                          ├── one payload shape
+                          ├── one master key
+                          └── one error contract</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FEATURES ================= -->
+    <section class="section section--tight" id="features">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Why RSRoute</span>
+          <h2>Built for teams that ship against more than one model.</h2>
+          <p>
+            A stable REST contract over LangChain's provider adapters — so provider
+            churn never reaches your application code.
+          </p>
+        </div>
+
+        <div class="grid grid--3">
+          <article class="card reveal">
+            <div class="card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 7h6a4 4 0 0 1 4 4v6" /><path d="M20 7h-4" />
+                <circle cx="20" cy="7" r="2" /><circle cx="14" cy="17" r="2" />
+              </svg>
+            </div>
+            <h3>One API, many providers</h3>
+            <p>
+              The same request shape works for Gemini, Mistral, Groq and OpenRouter.
+              Switching provider is a URL change, not a refactor.
+            </p>
+          </article>
+
+          <article class="card reveal">
+            <div class="card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="10" width="16" height="10" rx="2" />
+                <path d="M8 10V7a4 4 0 0 1 8 0v3" /><circle cx="12" cy="15" r="1.4" />
+              </svg>
+            </div>
+            <h3>Centralised secrets</h3>
+            <p>
+              Provider keys live in one <code class="mono">.env</code> on one host.
+              Applications never see them — they only hold the gateway master key.
+            </p>
+          </article>
+
+          <article class="card reveal">
+            <div class="card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 6h16M4 12h16M4 18h10" />
+                <circle cx="19" cy="18" r="2" />
+              </svg>
+            </div>
+            <h3>Consistent envelope</h3>
+            <p>
+              <code class="mono">content</code>, <code class="mono">usage_metadata</code>,
+              <code class="mono">response_metadata</code> and
+              <code class="mono">initlized_parameters</code> — always present, always the same keys.
+            </p>
+          </article>
+
+          <article class="card reveal">
+            <div class="card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3v3M12 18v3M3 12h3M18 12h3" />
+                <circle cx="12" cy="12" r="4" />
+              </svg>
+            </div>
+            <h3>Agentic tool-calling</h3>
+            <p>
+              Send <code class="mono">tools_info</code> and the model decides which tool to
+              call. RSRoute advertises tools but never executes them — your app stays in control.
+            </p>
+          </article>
+
+          <article class="card reveal">
+            <div class="card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 12a8 8 0 1 1-2.3-5.6" /><path d="M20 4v4h-4" />
+              </svg>
+            </div>
+            <h3>Stateless by design</h3>
+            <p>
+              No database, no session store, no queue. Scale horizontally by running
+              more replicas behind a load balancer.
+            </p>
+          </article>
+
+          <article class="card reveal">
+            <div class="card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3l8 4v5c0 5-3.4 8.2-8 9-4.6-.8-8-4-8-9V7l8-4Z" />
+                <path d="M9 12l2 2 4-4" />
+              </svg>
+            </div>
+            <h3>Self-hosted &amp; containerised</h3>
+            <p>
+              Two Dockerfiles, CI on every push, and no SaaS dependency. Your prompts
+              and keys never leave your infrastructure.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= API REFERENCE ================= -->
+    <section class="section" id="api">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">API surface</span>
+          <h2>Every route, documented by the gateway itself.</h2>
+          <p>
+            <code class="mono">GET /</code> returns a machine-readable index of all routes.
+            Each provider also exposes a parameter endpoint describing every accepted field.
+          </p>
+        </div>
+
+        <div class="table-scroll reveal">
+          <table>
+            <caption class="sr-only">RSRoute endpoints by provider</caption>
+            <thead>
+              <tr>
+                <th scope="col">Provider</th>
+                <th scope="col">Chat</th>
+                <th scope="col">Agent</th>
+                <th scope="col">Parameters</th>
+                <th scope="col">Default model</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Google Gemini</strong></td>
+                <td><span class="method method--post">POST</span> <code>/v1/gemini/chat</code></td>
+                <td><span class="method method--post">POST</span> <code>/v1/gemini/agent</code></td>
+                <td><span class="method method--get">GET</span> <code>/v1/gemini/parameter</code></td>
+                <td><code>gemini-3.5-flash-lite</code></td>
+              </tr>
+              <tr>
+                <td><strong>MistralAI</strong></td>
+                <td><span class="method method--post">POST</span> <code>/v1/mistral/chat</code></td>
+                <td><span class="method method--post">POST</span> <code>/v1/mistral/agent</code></td>
+                <td><span class="method method--get">GET</span> <code>/v1/mistral/parameter</code></td>
+                <td><code>mistral-small-2603</code></td>
+              </tr>
+              <tr>
+                <td><strong>Groq</strong></td>
+                <td><span class="method method--post">POST</span> <code>/v1/groq/chat</code></td>
+                <td><span class="method method--post">POST</span> <code>/v1/groq/agent</code></td>
+                <td><span class="method method--get">GET</span> <code>/v1/groq/parameters</code></td>
+                <td><code>openai/gpt-oss-120b</code></td>
+              </tr>
+              <tr>
+                <td><strong>OpenRouter</strong></td>
+                <td colspan="3" style="color:var(--text-mute)">Library class only — HTTP route not yet wired</td>
+                <td><code>deepseek/deepseek-v4.1-flash</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="grid grid--2" style="margin-top:clamp(1.5rem,3vw,2.5rem)">
+          <div class="feature-list reveal">
+            <div class="feature-row">
+              <span class="feature-row__num">01</span>
+              <div>
+                <h3>Chat — plain text-to-text</h3>
+                <p>Wraps the LangChain chat model and calls <code class="mono">.invoke()</code>. Send a query, get content back.</p>
+              </div>
+            </div>
+            <div class="feature-row">
+              <span class="feature-row__num">02</span>
+              <div>
+                <h3>Agent — tool intent, not execution</h3>
+                <p>Bind stub tools by name and description. The model returns <code class="mono">tool_calls</code>; your app runs them.</p>
+              </div>
+            </div>
+            <div class="feature-row">
+              <span class="feature-row__num">03</span>
+              <div>
+                <h3>Parameters — self-documenting</h3>
+                <p>Every accepted field, its type and its default, straight from the running gateway.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="code-wrap reveal">
+            <div class="code-tabs" role="tablist" aria-label="Response envelope example">
+              <button class="code-tab" role="tab" aria-selected="true" aria-controls="panel-envelope" id="tab-envelope" type="button">Response envelope</button>
+            </div>
+            <div class="code-panel is-active" id="panel-envelope" role="tabpanel" aria-labelledby="tab-envelope">
+<pre><code>{
+  <span class="tok-key">"content"</span>: <span class="tok-str">"Here is the summary…"</span>,
+  <span class="tok-key">"query"</span>: [<span class="tok-str">"Summarise this document"</span>],
+  <span class="tok-key">"error"</span>: <span class="tok-str">"No Error Found"</span>,
+  <span class="tok-key">"login"</span>: <span class="tok-num">true</span>,
+  <span class="tok-key">"auth"</span>: <span class="tok-num">true</span>,
+  <span class="tok-key">"usage_metadata"</span>: { <span class="tok-com">/* tokens in / out */</span> },
+  <span class="tok-key">"response_metadata"</span>: { <span class="tok-com">/* provider raw */</span> },
+  <span class="tok-key">"initlized_parameters"</span>: {
+    <span class="tok-key">"model"</span>: <span class="tok-str">"gemini-3.5-flash-lite"</span>,
+    <span class="tok-key">"temperature"</span>: <span class="tok-num">0.7</span>
+  },
+  <span class="tok-key">"tool_calls"</span>: []
+}</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="card reveal" style="margin-top:clamp(1.5rem,3vw,2.5rem);border-left:3px solid var(--warn)">
+          <h3 style="margin-top:0">Errors are reported in-band</h3>
+          <p style="margin-top:.5rem">
+            Auth failures, missing provider keys and provider exceptions all return
+            <strong>HTTP 200</strong> with <code class="mono">error</code> populated and
+            <code class="mono">login: false</code>. Clients must inspect the body, not the status code.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= QUICKSTART ================= -->
+    <section class="section section--tight" id="quickstart">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Quickstart</span>
+          <h2>Running in four steps.</h2>
+          <p>
+            Install the <code class="mono">rsroute</code> Python client, point it at your gateway,
+            and call any provider with the same code.
+          </p>
+        </div>
+
+        <div class="grid grid--2" style="align-items:start">
+          <div class="steps reveal">
+            <div class="step">
+              <div>
+                <h3>Install the client</h3>
+                <p>
+                  The <code class="mono">rsroute</code> package is a thin Python wrapper around the
+                  gateway. Requires Python 3.14+.
+                </p>
+                <div class="code-wrap">
+<pre><code>pip install rsroute</code></pre>
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div>
+                <h3>Run the gateway</h3>
+                <p>
+                  The client needs an RSRoute server to talk to. Clone it, add your provider keys
+                  to <code class="mono">.env</code>, and boot it.
+                </p>
+                <div class="code-wrap">
+<pre><code>git clone https://github.com/ItzRustam/rsroute.git
+cd rsroute
+pip install -r requirements.txt
+python run_server.py</code></pre>
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div>
+                <h3>Set your master key</h3>
+                <p>
+                  The client reads the key from <code class="mono">.env</code> automatically. Any of
+                  these names work: <code class="mono">rsroute_token</code>,
+                  <code class="mono">master_key</code>, <code class="mono">rsroute_key</code>,
+                  <code class="mono">rsroute_master_key</code>.
+                </p>
+                <div class="code-wrap">
+<pre><code># .env
+rsroute_token=RSRoute_my_key</code></pre>
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div>
+                <h3>Call any provider</h3>
+                <p>
+                  Same shape for every provider — swap the class, keep the code.
+                  <code class="mono">rsroute_url</code> defaults to
+                  <code class="mono">http://0.0.0.0:8000</code>.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="code-wrap reveal">
+            <div class="code-tabs" role="tablist" aria-label="Client examples">
+              <button class="code-tab" role="tab" aria-selected="true" aria-controls="panel-chat" id="tab-chat" type="button">Chat model</button>
+              <button class="code-tab" role="tab" aria-selected="false" aria-controls="panel-agent" id="tab-agent" type="button">Agent</button>
+              <button class="code-tab" role="tab" aria-selected="false" aria-controls="panel-http" id="tab-http" type="button">Raw HTTP</button>
+            </div>
+
+            <div class="code-panel is-active" id="panel-chat" role="tabpanel" aria-labelledby="tab-chat">
+<pre><code><span class="tok-key">from</span> rsroute.chat_models <span class="tok-key">import</span> (
+    ChatGemini, ChatMistral, ChatGroq,
+)
+
+<span class="tok-com"># Gemini</span>
+gemini = ChatGemini(
+    model=<span class="tok-str">"gemini-3.5-flash-lite"</span>,
+    rsroute_url=<span class="tok-str">"http://0.0.0.0:8000"</span>,  <span class="tok-com"># default</span>
+)
+<span class="tok-fn">print</span>(gemini.<span class="tok-fn">invoke</span>(query=<span class="tok-str">"What is GitHub?"</span>))
+
+<span class="tok-com"># Groq — same shape, different class</span>
+groq = ChatGroq(
+    model=<span class="tok-str">"openai/gpt-oss-120b"</span>,
+    temperature=<span class="tok-num">0.7</span>,
+)
+<span class="tok-fn">print</span>(groq.<span class="tok-fn">invoke</span>(query=<span class="tok-str">"Hello Groq!"</span>))</code></pre>
+            </div>
+
+            <div class="code-panel" id="panel-agent" role="tabpanel" aria-labelledby="tab-agent">
+<pre><code><span class="tok-key">from</span> rsroute.agents <span class="tok-key">import</span> (
+    GeminiAgent, MistralAgent, GroqAgent,
+)
+
+<span class="tok-com"># Your own tool — the client runs it for you</span>
+<span class="tok-key">def</span> <span class="tok-fn">web_search</span>(query: <span class="tok-key">str</span>) -&gt; <span class="tok-key">str</span>:
+    ...
+
+gemini_agent = GeminiAgent(
+    tools=[web_search],
+    max_tool_calls=<span class="tok-num">12</span>,  <span class="tok-com"># default 10</span>
+)
+<span class="tok-fn">print</span>(gemini_agent.<span class="tok-fn">invoke</span>(
+    query=<span class="tok-str">"Latest news on GPT-6 Astra"</span>
+))
+
+mistral_agent = MistralAgent(
+    tools=[web_search],
+    model=<span class="tok-str">"mistral-small-2603"</span>,
+)
+<span class="tok-fn">print</span>(mistral_agent.<span class="tok-fn">invoke</span>(
+    query=<span class="tok-str">"What is the weather in Paris?"</span>
+))</code></pre>
+            </div>
+
+            <div class="code-panel" id="panel-http" role="tabpanel" aria-labelledby="tab-http">
+<pre><code><span class="tok-key">import</span> requests
+
+resp = requests.<span class="tok-fn">post</span>(
+    <span class="tok-str">"http://localhost:8000/v1/gemini/chat"</span>,
+    json={
+        <span class="tok-str">"query"</span>: <span class="tok-str">"Explain vector databases"</span>,
+        <span class="tok-str">"master_key"</span>: <span class="tok-str">"RSRoute_my_key"</span>,
+        <span class="tok-str">"temperature"</span>: <span class="tok-num">0.7</span>,
+        <span class="tok-str">"max_tokens"</span>: <span class="tok-num">2048</span>,
+    },
+    timeout=<span class="tok-num">60</span>,
+)
+
+data = resp.<span class="tok-fn">json</span>()
+<span class="tok-key">if</span> data[<span class="tok-str">"error"</span>] != <span class="tok-str">"No Error Found"</span>:
+    <span class="tok-key">raise</span> <span class="tok-fn">RuntimeError</span>(data[<span class="tok-str">"error"</span>])
+
+<span class="tok-fn">print</span>(data[<span class="tok-str">"content"</span>])</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="card reveal" style="margin-top:clamp(1.5rem,3vw,2.5rem)">
+          <h3 style="margin-top:0">Prefer the raw REST API?</h3>
+          <p style="margin-top:.5rem">
+            The <code class="mono">rsroute</code> client is optional. Every endpoint is plain HTTP,
+            so you can call the gateway from any language — see the
+            <a href="#api" style="color:var(--accent);text-decoration:underline">API reference</a>
+            above, or browse the client source at
+            <a href="https://www.github.com/ItzRustam/rsroute-package" target="_blank" rel="noopener noreferrer" style="color:var(--accent);text-decoration:underline">github.com/ItzRustam/rsroute-package</a>.
+          </p>
+        </div>
+      </div>
+    </section>
+    <!-- ================= FAQ ================= -->
+    <section class="section" id="faq">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">FAQ</span>
+          <h2>Questions worth asking.</h2>
+        </div>
+
+        <div class="faq reveal">
+          <details open>
+            <summary>Does RSRoute execute tools for me?</summary>
+            <div class="faq__body">
+              <p>
+                No. It advertises tools to the model and returns the model's
+                <code class="mono">tool_calls</code> intent. Your application executes the tool
+                and sends the result back. This keeps the gateway stateless and avoids running
+                arbitrary code server-side.
+              </p>
+            </div>
+          </details>
+
+          <details>
+            <summary>How does authentication work?</summary>
+            <div class="faq__body">
+              <p>
+                A single shared master key, toggled by <code class="mono">ENABLE_AUTH</code>.
+                The key must start with the literal prefix <code class="mono">RSRoute_</code> and be
+                at least 14 characters long. Clients send it as <code class="mono">master_key</code>
+                in the JSON body.
+              </p>
+              <p>
+                This is gateway-level auth, not per-user or per-tenant. For multi-tenant exposure,
+                put your own auth layer in front.
+              </p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Why do errors come back as HTTP 200?</summary>
+            <div class="faq__body">
+              <p>
+                RSRoute reports failures in-band: the response body carries
+                <code class="mono">error</code> and <code class="mono">login: false</code>.
+                Always check the body rather than relying on the status code.
+              </p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Is there a Python client?</summary>
+            <div class="faq__body">
+              <p>
+                Yes — <a href="https://www.github.com/ItzRustam/rsroute-package" target="_blank" rel="noopener noreferrer" style="color:var(--accent);text-decoration:underline">rsroute-package</a>
+                is a thin client that wraps the gateway. It handles the master key, request
+                shaping and agentic tool loops for you.
+              </p>
+              <p>
+                <code class="mono">pip install rsroute</code>, then
+                <code class="mono">from rsroute.chat_models import ChatGemini</code> or
+                <code class="mono">from rsroute.agents import GeminiAgent</code>.
+                It reads the key from <code class="mono">.env</code> automatically.
+              </p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Can I use the server as a library instead?</summary>
+            <div class="faq__body">
+              <p>
+                Yes. The provider wrappers in <code class="mono">app/providers/</code> are importable
+                directly — <code class="mono">ChatGemini(...)</code>, <code class="mono">ChatMistralAI(...)</code>,
+                <code class="mono">ChatGroq(...)</code>, <code class="mono">ChatOpenRouter(...)</code>.
+                Both modes share the same abstraction layer, so behaviour is identical.
+              </p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Is streaming supported?</summary>
+            <div class="faq__body">
+              <p>
+                Not yet. The chat classes explicitly document that streaming is unsupported in v1.
+                Responses are returned in full.
+              </p>
+            </div>
+          </details>
+
+          <details>
+            <summary>What about OpenAI and HuggingFace?</summary>
+            <div class="faq__body">
+              <p>
+                Both are placeholder stubs in the current tree — license headers only, not wired
+                to routes. OpenRouter has a working client class but no HTTP router yet. Embedding
+                endpoints are marked "coming soon" in the root index.
+              </p>
+            </div>
+          </details>
+
+          <details>
+            <summary>How do I deploy it safely?</summary>
+            <div class="faq__body">
+              <p>
+                Terminate TLS and add CORS at a reverse proxy. Keep real keys in an ignored
+                <code class="mono">keys.env</code> or in the deployment environment — never in a tracked
+                <code class="mono">.env</code>. And set <code class="mono">ENABLE_AUTH=true</code>: it defaults
+                to <code class="mono">false</code>, which would expose every provider key behind the gateway.
+              </p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CTA ================= -->
+    <section class="section section--tight">
+      <div class="container">
+        <div class="cta-band reveal">
+          <h2>Stop rewriting LLM clients. Start routing.</h2>
+          <p>
+            One gateway, one payload, one master key — across every provider you use today
+            and the ones you add next quarter.
+          </p>
+          <div class="hero-cta">
+            <a class="btn btn--primary" href="#quickstart">Read the quickstart</a>
+            <a class="btn btn--ghost" href="#api">Browse endpoints</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="#top" aria-label="RSRoute home">
+            <img src="assets/img/logo.svg" alt="" width="34" height="34" />
+            <span>RSRoute</span>
+          </a>
+          <p>
+            Self-hostable FastAPI gateway providing a unified REST API for multiple LLM
+            providers, powered by LangChain.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#api">API reference</a></li>
+            <li><a href="#quickstart">Quickstart</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Providers</h4>
+          <ul>
+            <li><a href="#api">Google Gemini</a></li>
+            <li><a href="#api">MistralAI</a></li>
+            <li><a href="#api">Groq</a></li>
+            <li><a href="#api">OpenRouter</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#api">Response contract</a></li>
+            <li><a href="#quickstart">Quickstart</a></li>
+            <li><a href="https://www.github.com/ItzRustam/rsroute" target="_blank" rel="noopener noreferrer">Server repo</a></li>
+            <li><a href="https://www.github.com/ItzRustam/rsroute-package" target="_blank" rel="noopener noreferrer">Python client</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; 2026 ItzRustam (Rustam Bhadouriya) &middot; BSD-3-Clause</span>
+        <div class="badge-row">
+          <span class="chip">v1-starter-version</span>
+          <span class="chip">in development</span>
+          <span class="chip chip--ok">&#9679; self-hosted</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <button class="to-top" id="toTop" type="button" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 19V5M6 11l6-6 6 6" />
+    </svg>
+  </button>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
