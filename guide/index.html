@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Guide — RSRoute</title>
+  <meta name="description" content="Complete RSRoute guide: what the gateway is, every server parameter it accepts, REST API examples in Python and JavaScript, and the rsroute Python client." />
+  <meta name="theme-color" content="#f7f8fc" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#070a12" media="(prefers-color-scheme: dark)" />
+  <meta name="color-scheme" content="light dark" />
+
+  <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg" />
+  <link rel="apple-touch-icon" href="../assets/img/logo.svg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <script src="../assets/js/theme-init.js"></script>
+
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+  <link rel="stylesheet" href="../assets/css/guide.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ================= HEADER ================= -->
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <a class="brand" href="../index.html" aria-label="RSRoute home">
+        <img src="../assets/img/logo.svg" alt="" width="34" height="34" />
+        <span>RSRoute</span>
+      </a>
+
+      <nav class="nav" id="primaryNav" aria-label="Primary">
+        <a href="../index.html#overview">Overview</a>
+        <a href="../index.html#features">Features</a>
+        <a href="../index.html#api">API</a>
+        <a href="../index.html#openrouter">OpenRouter</a>
+        <a href="index.html" class="is-active" aria-current="page">Guide</a>
+        <a href="../index.html#faq">FAQ</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="theme-toggle" id="themeToggle" type="button"
+                aria-label="Switch to dark theme" title="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" />
+          </svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4" />
+            <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+          </svg>
+        </button>
+
+        <a class="btn btn--primary btn--sm" href="../index.html#quickstart">
+          Get started
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </a>
+
+        <button class="menu-toggle" id="menuToggle" type="button"
+                aria-expanded="false" aria-controls="primaryNav" aria-label="Open menu">
+          <svg class="icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16" />
+          </svg>
+          <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ================= GUIDE HERO ================= -->
+    <section class="guide-hero">
+      <div class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <a href="../index.html">Home</a>
+          <span class="sep" aria-hidden="true">/</span>
+          <span aria-current="page">Guide</span>
+        </nav>
+        <span class="eyebrow">Documentation</span>
+        <h1>Everything you need to call RSRoute.</h1>
+        <p class="lede">
+          RSRoute is a self-hostable FastAPI gateway that puts one REST contract in front of
+          Gemini, Mistral, Groq and OpenRouter. This guide covers what the gateway is, every
+          field it accepts, and how to call it from Python, JavaScript or the
+          <code class="mono">rsroute</code> client.
+        </p>
+      </div>
+    </section>
+
+    <div class="container guide-layout">
+      <!-- ================= SIDEBAR ================= -->
+      <aside class="guide-sidebar">
+        <div class="guide-nav__group">
+          <p class="guide-sidebar__title">Guide</p>
+          <nav class="guide-nav" aria-label="Guide sections">
+            <a href="#what-it-is">What RSRoute is</a>
+            <a href="#providers">Providers</a>
+            <a href="#parameters">Server parameters</a>
+            <a href="#rest">REST API</a>
+            <a href="#client">rsroute client</a>
+            <a href="#envelope">Response envelope</a>
+            <a href="#errors">Errors</a>
+          </nav>
+        </div>
+        <div class="guide-nav__group">
+          <p class="guide-sidebar__title">Deep dives</p>
+          <nav class="guide-nav" aria-label="Deep dive guides">
+            <a href="chat_model/index.html">Chat models</a>
+            <a href="agent/index.html">Agents</a>
+          </nav>
+        </div>
+        <div class="guide-nav__group">
+          <p class="guide-sidebar__title">Per provider</p>
+          <nav class="guide-nav" aria-label="Provider guides">
+            <a href="gemini/index.html">Google Gemini</a>
+            <a href="mistral/index.html">MistralAI</a>
+            <a href="groq/index.html">Groq</a>
+            <a href="openrouter/index.html">OpenRouter</a>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- ================= CONTENT ================= -->
+      <div class="guide-content">
+        <!-- ---------- What it is ---------- -->
+        <section id="what-it-is">
+          <div class="guide-section-head">
+            <span class="eyebrow">Start here</span>
+            <h2>What RSRoute is</h2>
+          </div>
+          <p>
+            RSRoute is a small FastAPI service you run yourself. It holds your provider API
+            keys, exposes one endpoint per provider, and returns every response in the same
+            JSON shape. Your application talks to RSRoute instead of talking to four different
+            SDKs.
+          </p>
+          <p>
+            There are two ways to use it, and they share the same contract:
+          </p>
+          <ul>
+            <li>
+              <strong>As a server</strong> — run it with <code class="mono">python run_server.py</code>
+              and call the HTTP routes from any language.
+            </li>
+            <li>
+              <strong>As a library</strong> — import the provider wrappers from
+              <code class="mono">app/providers/</code> directly, no HTTP hop.
+            </li>
+          </ul>
+          <p>
+            On top of that, the separate <code class="mono">rsroute</code> Python package is a
+            thin client that wraps the HTTP routes and handles the master key, request shaping
+            and the agentic tool loop for you.
+          </p>
+
+          <div class="callout">
+            <span class="callout__title">Design constraints</span>
+            <p>
+              Stateless — no database, no session store, no queue. Streaming is not supported in
+              v1; responses are returned in full. Tools are advertised to the model but never
+              executed server-side.
+            </p>
+          </div>
+        </section>
+
+        <!-- ---------- Providers ---------- -->
+        <section id="providers">
+          <div class="guide-section-head">
+            <span class="eyebrow">Four routes</span>
+            <h2>Providers</h2>
+          </div>
+          <p>
+            Each provider gets its own prefix, its own default model and its own set of
+            supported parameters. Pick one to see its full reference.
+          </p>
+
+          <div class="provider-grid">
+            <a class="provider-card" href="gemini/index.html">
+              <div class="provider-card__top">
+                <h3>Google Gemini</h3>
+                <span class="chip chip--ok">live</span>
+              </div>
+              <p>
+                Gemini chat and agent routes, plus the only provider with
+                <code class="mono">thinking_level</code> and <code class="mono">thinking_budget</code>.
+              </p>
+              <div class="provider-card__meta">
+                <span class="chip">/v1/gemini</span>
+                <span class="chip">top_p</span>
+              </div>
+              <span class="provider-card__cta">Open guide →</span>
+            </a>
+
+            <a class="provider-card" href="mistral/index.html">
+              <div class="provider-card__top">
+                <h3>MistralAI</h3>
+                <span class="chip chip--ok">live</span>
+              </div>
+              <p>
+                Mistral chat and agent routes with the standard parameter set and
+                <code class="mono">top_p</code> support.
+              </p>
+              <div class="provider-card__meta">
+                <span class="chip">/v1/mistral</span>
+                <span class="chip">top_p</span>
+              </div>
+              <span class="provider-card__cta">Open guide →</span>
+            </a>
+
+            <a class="provider-card" href="groq/index.html">
+              <div class="provider-card__top">
+                <h3>Groq</h3>
+                <span class="chip chip--ok">live</span>
+              </div>
+              <p>
+                Groq chat and agent routes. <code class="mono">top_p</code> is not supported and is
+                removed from the parameter info.
+              </p>
+              <div class="provider-card__meta">
+                <span class="chip">/v1/groq</span>
+                <span class="chip">no top_p</span>
+              </div>
+              <span class="provider-card__cta">Open guide →</span>
+            </a>
+
+            <a class="provider-card" href="openrouter/index.html">
+              <div class="provider-card__top">
+                <h3>OpenRouter</h3>
+                <span class="chip chip--ok">new</span>
+              </div>
+              <p>
+                Hundreds of models behind one route, with provider routing preferences, app
+                attribution and retries.
+              </p>
+              <div class="provider-card__meta">
+                <span class="chip">/v1/openrouter</span>
+                <span class="chip">providers</span>
+              </div>
+              <span class="provider-card__cta">Open guide →</span>
+            </a>
+          </div>
+
+          <div class="callout callout--warn">
+            <span class="callout__title">Not wired yet</span>
+            <p>
+              OpenAI and HuggingFace exist as placeholder stubs in the source tree — license
+              headers only, no routes. Embedding endpoints are marked "coming soon" in the root
+              index.
+            </p>
+          </div>
+        </section>
+
+        <!-- ---------- Server parameters ---------- -->
+        <section id="parameters">
+          <div class="guide-section-head">
+            <span class="eyebrow">Request body</span>
+            <h2>Server parameters</h2>
+          </div>
+          <p>
+            Every route accepts a JSON body. These are the fields the server reads. Anything not
+            listed here is ignored — the routes declare their parameters explicitly.
+          </p>
+
+          <div class="table-scroll" style="margin-top:1.25rem">
+            <table class="param-table">
+              <caption class="sr-only">Common RSRoute request parameters</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Parameter</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Default</th>
+                  <th scope="col">Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>query</code> <span class="opt">opt</span></td>
+                  <td>any</td>
+                  <td><code>"Hello"</code></td>
+                  <td>
+                    Input to the model. A plain string is wrapped into a single user message;
+                    a list is passed through as a message array.
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>master_key</code> <span class="opt">opt</span></td>
+                  <td>string</td>
+                  <td><code>""</code></td>
+                  <td>
+                    Gateway key. Required only when <code>ENABLE_AUTH=true</code>. Must start with
+                    <code>RSRoute_</code> and be at least 14 characters.
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>model</code> <span class="opt">opt</span></td>
+                  <td>string</td>
+                  <td>per provider</td>
+                  <td>Provider model identifier. Defaults differ per route — see each provider guide.</td>
+                </tr>
+                <tr>
+                  <td><code>temperature</code> <span class="opt">opt</span></td>
+                  <td>float</td>
+                  <td><code>0.7</code></td>
+                  <td>Sampling creativity. <code>0.0</code> is deterministic, higher is more varied.</td>
+                </tr>
+                <tr>
+                  <td><code>max_tokens</code> <span class="opt">opt</span></td>
+                  <td>integer</td>
+                  <td><code>2048</code></td>
+                  <td>
+                    Upper bound on generated tokens. OpenRouter routes default to
+                    <code>4096</code> instead.
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>top_p</code> <span class="opt">opt</span></td>
+                  <td>float</td>
+                  <td><code>1.0</code></td>
+                  <td>
+                    Nucleus sampling boundary. Supported by Gemini and Mistral only — removed from
+                    Groq and OpenRouter.
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>end_point</code> <span class="opt">opt</span></td>
+                  <td>string | null</td>
+                  <td><code>null</code></td>
+                  <td>Custom base URL for the underlying provider client (proxy or self-hosted).</td>
+                </tr>
+                <tr>
+                  <td><code>thinking_level</code> <span class="opt">opt</span></td>
+                  <td>string | null</td>
+                  <td><code>null</code></td>
+                  <td>Gemini only. Controls reasoning depth on Gemini 3+ models.</td>
+                </tr>
+                <tr>
+                  <td><code>thinking_budget</code> <span class="opt">opt</span></td>
+                  <td>integer | null</td>
+                  <td><code>null</code></td>
+                  <td>Gemini only. Token budget for reasoning / chain-of-thought.</td>
+                </tr>
+                <tr>
+                  <td><code>tools_info</code> <span class="opt">opt</span></td>
+                  <td>array&lt;object&gt;</td>
+                  <td><code>null</code></td>
+                  <td>
+                    Agent routes only. List of <code>{"name", "description"}</code> pairs. See the
+                    <a class="inline-link" href="agent/index.html">agent guide</a>.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>OpenRouter-only fields</h3>
+          <p>
+            The OpenRouter routes accept five additional fields on top of the common set.
+          </p>
+          <div class="table-scroll" style="margin-top:1rem">
+            <table class="param-table">
+              <caption class="sr-only">OpenRouter-only request parameters</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Parameter</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Default</th>
+                  <th scope="col">Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>app_title</code> <span class="opt">opt</span></td>
+                  <td>string</td>
+                  <td><code>"RSRoute"</code></td>
+                  <td>App name reported to OpenRouter rankings.</td>
+                </tr>
+                <tr>
+                  <td><code>app_url</code> <span class="opt">opt</span></td>
+                  <td>string</td>
+                  <td><code>"https://www.rsroute.freedev.app/"</code></td>
+                  <td>App URL reported to OpenRouter rankings.</td>
+                </tr>
+                <tr>
+                  <td><code>app_categories</code> <span class="opt">opt</span></td>
+                  <td>array&lt;string&gt; | null</td>
+                  <td><code>null</code></td>
+                  <td>Optional category tags for the OpenRouter dashboard.</td>
+                </tr>
+                <tr>
+                  <td><code>max_retries</code> <span class="opt">opt</span></td>
+                  <td>integer</td>
+                  <td><code>2</code></td>
+                  <td>Automatic retry attempts on upstream failure.</td>
+                </tr>
+                <tr>
+                  <td><code>providers</code> <span class="opt">opt</span></td>
+                  <td>object | null</td>
+                  <td><code>null</code></td>
+                  <td>
+                    OpenRouter provider preferences, e.g.
+                    <code>{"order": ["OpenAI"]}</code>.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>Environment variables</h3>
+          <p>
+            Provider keys live in <code class="mono">.env</code> on the gateway host. Applications
+            never see them.
+          </p>
+          <div class="table-scroll" style="margin-top:1rem">
+            <table class="param-table">
+              <caption class="sr-only">Server environment variables</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Variable</th>
+                  <th scope="col">Required</th>
+                  <th scope="col">Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>GOOGLE_API_KEY</code></td>
+                  <td><span class="req">for gemini</span></td>
+                  <td>Missing key returns <code>error: "No Google API Key Found, try to edit `.env`"</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>MISTRAL_API_KEY</code></td>
+                  <td><span class="req">for mistral</span></td>
+                  <td>Missing key returns <code>error: "No MistralAI API Key Found, try to edit `.env`"</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>GROQ_API_KEY</code></td>
+                  <td><span class="req">for groq</span></td>
+                  <td>Missing key returns <code>error: "No Groq API Key Found, try to edit `.env`"</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>OPENROUTER_API_KEY</code></td>
+                  <td><span class="req">for openrouter</span></td>
+                  <td>Missing key returns <code>error: "No OpenRouter API Key Found, try to edit `.env`"</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>RSRoute_MASTER_KEY</code></td>
+                  <td><span class="req">if auth on</span></td>
+                  <td>Must start with <code>RSRoute_</code> and be at least 14 characters.</td>
+                </tr>
+                <tr>
+                  <td><code>ENABLE_AUTH</code></td>
+                  <td><span class="opt">opt</span></td>
+                  <td>
+                    Defaults to <code>false</code>. Set to <code>true</code> to require
+                    <code>master_key</code> on every request.
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>HOST</code> / <code>PORT</code></td>
+                  <td><span class="opt">opt</span></td>
+                  <td>Bind address for <code>run_server.py</code>. Defaults <code>127.0.0.1</code> and <code>8000</code>.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout callout--danger">
+            <span class="callout__title">Auth defaults to off</span>
+            <p>
+              <code>ENABLE_AUTH</code> is <code>false</code> unless you set it. With auth off,
+              anyone who can reach the port can spend your provider credits. Set it to
+              <code>true</code> before exposing the gateway.
+            </p>
+          </div>
+        </section>
+
+        <!-- ---------- REST API ---------- -->
+        <section id="rest">
+          <div class="guide-section-head">
+            <span class="eyebrow">Plain HTTP</span>
+            <h2>REST API example</h2>
+          </div>
+          <p>
+            Every route is a plain <code class="mono">POST</code> with a JSON body. No SDK, no
+            special headers — the master key travels in the body, not in an
+            <code class="mono">Authorization</code> header.
+          </p>
+
+          <div class="code-wrap">
+            <div class="code-tabs" role="tablist" aria-label="REST API examples">
+              <button class="code-tab" role="tab" aria-selected="true" aria-controls="panel-rest-py" id="tab-rest-py" type="button">Python</button>
+              <button class="code-tab" role="tab" aria-selected="false" aria-controls="panel-rest-js" id="tab-rest-js" type="button">JavaScript</button>
+              <button class="code-tab" role="tab" aria-selected="false" aria-controls="panel-rest-curl" id="tab-rest-curl" type="button">cURL</button>
+            </div>
+
+            <div class="code-panel is-active" id="panel-rest-py" role="tabpanel" aria-labelledby="tab-rest-py">
+<pre><code><span class="tok-key">import</span> requests
+
+resp = requests.<span class="tok-fn">post</span>(
+    <span class="tok-str">"http://localhost:8000/v1/gemini/chat"</span>,
+    json={
+        <span class="tok-str">"query"</span>: <span class="tok-str">"Explain vector databases"</span>,
+        <span class="tok-str">"master_key"</span>: <span class="tok-str">"RSRoute_my_key"</span>,
+        <span class="tok-str">"model"</span>: <span class="tok-str">"gemini-3.5-flash-lite"</span>,
+        <span class="tok-str">"temperature"</span>: <span class="tok-num">0.7</span>,
+        <span class="tok-str">"max_tokens"</span>: <span class="tok-num">2048</span>,
+    },
+    timeout=<span class="tok-num">60</span>,
+)
+
+data = resp.<span class="tok-fn">json</span>()
+
+<span class="tok-com"># Errors arrive in-band with HTTP 200 — check the body.</span>
+<span class="tok-key">if</span> data[<span class="tok-str">"error"</span>] != <span class="tok-str">"No Error Found"</span>:
+    <span class="tok-key">raise</span> <span class="tok-fn">RuntimeError</span>(data[<span class="tok-str">"error"</span>])
+
+<span class="tok-fn">print</span>(data[<span class="tok-str">"content"</span>])</code></pre>
+            </div>
+
+            <div class="code-panel" id="panel-rest-js" role="tabpanel" aria-labelledby="tab-rest-js">
+<pre><code><span class="tok-key">const</span> resp = <span class="tok-key">await</span> <span class="tok-fn">fetch</span>(<span class="tok-str">"http://localhost:8000/v1/gemini/chat"</span>, {
+  method: <span class="tok-str">"POST"</span>,
+  headers: { <span class="tok-str">"Content-Type"</span>: <span class="tok-str">"application/json"</span> },
+  body: <span class="tok-fn">JSON.stringify</span>({
+    query: <span class="tok-str">"Explain vector databases"</span>,
+    master_key: <span class="tok-str">"RSRoute_my_key"</span>,
+    model: <span class="tok-str">"gemini-3.5-flash-lite"</span>,
+    temperature: <span class="tok-num">0.7</span>,
+    max_tokens: <span class="tok-num">2048</span>,
+  }),
+});
+
+<span class="tok-key">const</span> data = <span class="tok-key">await</span> resp.<span class="tok-fn">json</span>();
+
+<span class="tok-com">// Errors arrive in-band with HTTP 200 — check the body.</span>
+<span class="tok-key">if</span> (data.error !== <span class="tok-str">"No Error Found"</span>) {
+  <span class="tok-key">throw new</span> <span class="tok-fn">Error</span>(data.error);
+}
+
+console.<span class="tok-fn">log</span>(data.content);</code></pre>
+            </div>
+
+            <div class="code-panel" id="panel-rest-curl" role="tabpanel" aria-labelledby="tab-rest-curl">
+<pre><code>curl -X POST http://localhost:8000/v1/gemini/chat \
+  -H <span class="tok-str">"Content-Type: application/json"</span> \
+  -d <span class="tok-str">'{
+    "query": "Explain vector databases",
+    "master_key": "RSRoute_my_key",
+    "model": "gemini-3.5-flash-lite",
+    "temperature": 0.7,
+    "max_tokens": 2048
+  }'</span></code></pre>
+            </div>
+          </div>
+          <p class="code-caption">
+            Swap the path to change provider: <code class="mono">/v1/mistral/chat</code>,
+            <code class="mono">/v1/groq/chat</code>, <code class="mono">/v1/openrouter/chat</code>.
+            The body shape stays the same.
+          </p>
+
+          <h3>Discovering routes at runtime</h3>
+          <p>
+            <code class="mono">GET /</code> returns a machine-readable index of every route, and
+            each provider exposes a parameter endpoint describing the fields it accepts.
+          </p>
+          <div class="code-wrap">
+<pre><code><span class="tok-com"># Route index</span>
+curl http://localhost:8000/
+
+<span class="tok-com"># Parameter info for one provider</span>
+curl http://localhost:8000/v1/gemini/parameter
+curl http://localhost:8000/v1/mistral/parameter
+curl http://localhost:8000/v1/groq/parameters
+curl http://localhost:8000/v1/openrouter/parameters</code></pre>
+          </div>
+        </section>
+
+        <!-- ---------- rsroute client ---------- -->
+        <section id="client">
+          <div class="guide-section-head">
+            <span class="eyebrow">Optional wrapper</span>
+            <h2>rsroute client</h2>
+          </div>
+          <p>
+            <code class="mono">rsroute</code> is a thin Python package that wraps the HTTP routes.
+            It resolves the master key from <code class="mono">.env</code>, shapes the request, and
+            runs the agentic tool loop for you.
+          </p>
+          <div class="code-wrap">
+<pre><code>pip install rsroute</code></pre>
+          </div>
+          <p class="code-caption">Requires Python 3.14+.</p>
+
+          <h3>Chat model</h3>
+          <div class="code-wrap">
+<pre><code><span class="tok-key">from</span> rsroute.chat_models <span class="tok-key">import</span> ChatGemini
+
+gemini = ChatGemini(
+    model=<span class="tok-str">"gemini-3.5-flash-lite"</span>,
+    rsroute_url=<span class="tok-str">"http://0.0.0.0:8000"</span>,  <span class="tok-com"># default</span>
+    temperature=<span class="tok-num">0.7</span>,
+)
+
+result = gemini.<span class="tok-fn">invoke</span>(query=<span class="tok-str">"What is GitHub?"</span>)
+<span class="tok-fn">print</span>(result[<span class="tok-str">"content"</span>])</code></pre>
+          </div>
+
+          <h3>Agent</h3>
+          <div class="code-wrap">
+<pre><code><span class="tok-key">from</span> rsroute.agents <span class="tok-key">import</span> GeminiAgent
+
+gemini_agent = GeminiAgent(
+    tools=[web_search],       <span class="tok-com"># LangChain StructuredTool list</span>
+    max_tool_calls=<span class="tok-num">10</span>,       <span class="tok-com"># default</span>
+)
+
+result = gemini_agent.<span class="tok-fn">invoke</span>(query=<span class="tok-str">"Latest news on GPT-6 Astra"</span>)
+<span class="tok-fn">print</span>(result[<span class="tok-str">"content"</span>])
+<span class="tok-fn">print</span>(result[<span class="tok-str">"tools_used"</span>])</code></pre>
+          </div>
+
+          <div class="callout">
+            <span class="callout__title">Master key resolution</span>
+            <p>
+              The client looks for the key in this order: the <code>master_key</code> argument,
+              then <code>rsroute_token</code>, <code>master_key</code>, <code>rsroute_key</code>,
+              <code>rsroute_master_key</code> (upper or lower case) in the environment or
+              <code>.env</code>. If none is found it raises <code>ValueError</code>.
+            </p>
+          </div>
+
+          <p style="margin-top:1rem">
+            Full class-by-class reference:
+            <a class="inline-link" href="chat_model/index.html">chat model guide</a> and
+            <a class="inline-link" href="agent/index.html">agent guide</a>.
+          </p>
+        </section>
+
+        <!-- ---------- Envelope ---------- -->
+        <section id="envelope">
+          <div class="guide-section-head">
+            <span class="eyebrow">Contract</span>
+            <h2>Response envelope</h2>
+          </div>
+          <p>
+            Every successful response has the same keys, regardless of provider. Agent routes add
+            <code class="mono">tool_calls</code>.
+          </p>
+          <div class="code-wrap">
+<pre><code>{
+  <span class="tok-key">"content"</span>: <span class="tok-str">"Here is the summary…"</span>,
+  <span class="tok-key">"query"</span>: [<span class="tok-str">"Summarise this document"</span>],
+  <span class="tok-key">"error"</span>: <span class="tok-str">"No Error Found"</span>,
+  <span class="tok-key">"login"</span>: <span class="tok-num">true</span>,
+  <span class="tok-key">"auth"</span>: <span class="tok-num">true</span>,
+  <span class="tok-key">"usage_metadata"</span>: { <span class="tok-com">/* tokens in / out */</span> },
+  <span class="tok-key">"response_metadata"</span>: { <span class="tok-com">/* provider raw */</span> },
+  <span class="tok-key">"initlized_parameters"</span>: {
+    <span class="tok-key">"model"</span>: <span class="tok-str">"gemini-3.5-flash-lite"</span>,
+    <span class="tok-key">"temperature"</span>: <span class="tok-num">0.7</span>
+  },
+  <span class="tok-key">"tool_calls"</span>: []
+}</code></pre>
+          </div>
+          <p class="code-caption">
+            <code class="mono">initlized_parameters</code> is spelled that way in the API — keep the
+            typo when you read the field.
+          </p>
+        </section>
+
+        <!-- ---------- Errors ---------- -->
+        <section id="errors">
+          <div class="guide-section-head">
+            <span class="eyebrow">Failure modes</span>
+            <h2>Errors</h2>
+          </div>
+          <p>
+            RSRoute reports failures in-band. Auth failures, missing provider keys and provider
+            exceptions all return <strong>HTTP 200</strong> with <code class="mono">error</code>
+            populated and <code class="mono">login: false</code>.
+          </p>
+          <ul>
+            <li><strong>Authentication Failed</strong> — <code class="mono">master_key</code> missing, malformed or wrong.</li>
+            <li><strong>Invalid Request</strong> — provider key missing from <code class="mono">.env</code>, or the model failed to initialise.</li>
+            <li><strong>Request Error</strong> — the provider call itself raised.</li>
+          </ul>
+          <div class="callout callout--warn">
+            <span class="callout__title">Check the body, not the status</span>
+            <p>
+              A <code>200</code> does not mean success. Always compare
+              <code>error</code> against <code>"No Error Found"</code> before using
+              <code>content</code>.
+            </p>
+          </div>
+        </section>
+
+        <!-- ---------- Pager ---------- -->
+        <nav class="guide-pager" aria-label="Guide pagination">
+          <a href="../index.html">
+            <span class="dir">Back to</span>
+            <span class="label">Home</span>
+          </a>
+          <a class="next" href="chat_model/index.html">
+            <span class="dir">Next</span>
+            <span class="label">Chat models guide →</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="../index.html" aria-label="RSRoute home">
+            <img src="../assets/img/logo.svg" alt="" width="34" height="34" />
+            <span>RSRoute</span>
+          </a>
+          <p>
+            Self-hostable FastAPI gateway providing a unified REST API for multiple LLM
+            providers, powered by LangChain.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Guide</h4>
+          <ul>
+            <li><a href="index.html">Overview</a></li>
+            <li><a href="chat_model/index.html">Chat models</a></li>
+            <li><a href="agent/index.html">Agents</a></li>
+            <li><a href="index.html#parameters">Parameters</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Providers</h4>
+          <ul>
+            <li><a href="gemini/index.html">Google Gemini</a></li>
+            <li><a href="mistral/index.html">MistralAI</a></li>
+            <li><a href="groq/index.html">Groq</a></li>
+            <li><a href="openrouter/index.html">OpenRouter</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="../index.html#faq">FAQ</a></li>
+            <li><a href="../index.html#api">API reference</a></li>
+            <li><a href="https://www.github.com/ItzRustam/rsroute" target="_blank" rel="noopener noreferrer">Server repo</a></li>
+            <li><a href="https://www.github.com/ItzRustam/rsroute-package" target="_blank" rel="noopener noreferrer">Python client</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; 2026 ItzRustam (Rustam Bhadouriya) &middot; BSD-3-Clause</span>
+        <div class="badge-row">
+          <span class="chip">v1-starter-version</span>
+          <span class="chip">in development</span>
+          <span class="chip chip--ok">&#9679; self-hosted</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <button class="to-top" id="toTop" type="button" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 19V5M6 11l6-6 6 6" />
+    </svg>
+  </button>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/guide.js"></script>
+</body>
+</html>

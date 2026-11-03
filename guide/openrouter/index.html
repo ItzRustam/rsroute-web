@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>OpenRouter guide — RSRoute</title>
+  <meta name="description" content="RSRoute OpenRouter guide: /v1/openrouter routes, every server parameter including providers, app_title and max_retries, REST examples in Python and JavaScript, and the rsroute client." />
+  <meta name="theme-color" content="#f7f8fc" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#070a12" media="(prefers-color-scheme: dark)" />
+  <meta name="color-scheme" content="light dark" />
+
+  <link rel="icon" type="image/svg+xml" href="../../assets/img/favicon.svg" />
+  <link rel="apple-touch-icon" href="../../assets/img/logo.svg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <script src="../../assets/js/theme-init.js"></script>
+
+  <link rel="stylesheet" href="../../assets/css/styles.css" />
+  <link rel="stylesheet" href="../../assets/css/guide.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <a class="brand" href="../../index.html" aria-label="RSRoute home">
+        <img src="../../assets/img/logo.svg" alt="" width="34" height="34" />
+        <span>RSRoute</span>
+      </a>
+
+      <nav class="nav" id="primaryNav" aria-label="Primary">
+        <a href="../../index.html#overview">Overview</a>
+        <a href="../../index.html#features">Features</a>
+        <a href="../../index.html#api">API</a>
+        <a href="../../index.html#openrouter">OpenRouter</a>
+        <a href="../index.html" class="is-active" aria-current="page">Guide</a>
+        <a href="../../index.html#faq">FAQ</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="theme-toggle" id="themeToggle" type="button"
+                aria-label="Switch to dark theme" title="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" />
+          </svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4" />
+            <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+          </svg>
+        </button>
+
+        <a class="btn btn--primary btn--sm" href="../../index.html#quickstart">
+          Get started
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </a>
+
+        <button class="menu-toggle" id="menuToggle" type="button"
+                aria-expanded="false" aria-controls="primaryNav" aria-label="Open menu">
+          <svg class="icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16" />
+          </svg>
+          <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="guide-hero">
+      <div class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <a href="../../index.html">Home</a>
+          <span class="sep" aria-hidden="true">/</span>
+          <a href="../index.html">Guide</a>
+          <span class="sep" aria-hidden="true">/</span>
+          <span aria-current="page">OpenRouter</span>
+        </nav>
+        <span class="eyebrow">Provider guide</span>
+        <h1>OpenRouter</h1>
+        <p class="lede">
+          One key, hundreds of models. The OpenRouter routes accept five extra fields that no
+          other provider has — provider routing preferences, app attribution and retry control.
+        </p>
+      </div>
+    </section>
+
+    <div class="container guide-layout">
+      <aside class="guide-sidebar">
+        <div class="guide-nav__group">
+          <p class="guide-sidebar__title">OpenRouter</p>
+          <nav class="guide-nav" aria-label="OpenRouter sections">
+            <a href="#what">What it is</a>
+            <a href="#routes">Routes</a>
+            <a href="#parameters">Server parameters</a>
+            <a href="#models">Choosing a model</a>
+            <a href="#rest">REST example</a>
+            <a href="#client">rsroute client</a>
+            <a href="#notes">Notes</a>
+          </nav>
+        </div>
+        <div class="guide-nav__group">
+          <p class="guide-sidebar__title">Other providers</p>
+          <nav class="guide-nav" aria-label="Other providers">
+            <a href="../gemini/index.html">Google Gemini</a>
+            <a href="../mistral/index.html">MistralAI</a>
+            <a href="../groq/index.html">Groq</a>
+          </nav>
+        </div>
+      </aside>
+
+      <div class="guide-content">
+        <section id="what">
+          <div class="guide-section-head">
+            <span class="eyebrow">Overview</span>
+            <h2>What it is</h2>
+          </div>
+          <p>
+            OpenRouter aggregates frontier and open-weight models behind a single API. RSRoute
+            wraps it with the standard envelope and forwards OpenRouter's own routing and
+            attribution options.
+          </p>
+          <p>
+            Default model: <code class="mono">deepseek/deepseek-v4.1-flash</code>. Requires
+            <code class="mono">OPENROUTER_API_KEY</code> in the gateway's
+            <code class="mono">.env</code>.
+          </p>
+          <div class="callout">
+            <span class="callout__title">Different max_tokens default</span>
+            <p>
+              OpenRouter routes default <code>max_tokens</code> to <code>4096</code>, not
+              <code>2048</code> like the other three providers.
+            </p>
+          </div>
+        </section>
+
+        <section id="routes">
+          <div class="guide-section-head">
+            <span class="eyebrow">Endpoints</span>
+            <h2>Routes</h2>
+          </div>
+          <div class="table-scroll" style="margin-top:1.25rem">
+            <table class="param-table">
+              <caption class="sr-only">OpenRouter routes</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Method</th>
+                  <th scope="col">Path</th>
+                  <th scope="col">Purpose</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="method method--post">POST</span></td>
+                  <td><code>/v1/openrouter/chat</code></td>
+                  <td>Plain text-to-text chat.</td>
+                </tr>
+                <tr>
+                  <td><span class="method method--post">POST</span></td>
+                  <td><code>/v1/openrouter/agent</code></td>
+                  <td>Tool-binding agent. Requires <code>tools_info</code>.</td>
+                </tr>
+                <tr>
+                  <td><span class="method method--get">GET</span></td>
+                  <td><code>/v1/openrouter/parameters</code></td>
+                  <td>Parameter info. <code>/parameter</code> is an alias.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="parameters">
+          <div class="guide-section-head">
+            <span class="eyebrow">Request body</span>
+            <h2>Server parameters</h2>
+          </div>
+          <p>
+            The common set, minus <code class="mono">top_p</code>, plus five OpenRouter-specific
+            fields.
+          </p>
+          <div class="table-scroll" style="margin-top:1.25rem">
+            <table class="param-table">
+              <caption class="sr-only">OpenRouter request parameters</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Parameter</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Default</th>
+                  <th scope="col">Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>query</code> <span class="opt">opt</span></td>
+                  <td>any</td>
+                  <td><code>"Hello"</code></td>
+                  <td>String is wrapped into a user message; a list is passed through.</td>
+                </tr>
+                <tr>
+                  <td><code>master_key</code> <span class="opt">opt</span></td>
+                  <td>string</td>
+                  <td><code>""</code></td>
+                  <td>Checked only when <code>ENABLE_AUTH=true</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>model</code> <span class="opt">opt</span></td>
+                  <td>string</td>
+                  <td><code>"deepseek/deepseek-v4.1-flash"</code></td>
+                  <td>Any OpenRouter model identifier.</td>
+                </tr>
+                <tr>
+                  <td><code>temperature</code> <span class="opt">opt</span></td>
+                  <td>float</td>
+                  <td><code>0.7</code></td>
+                  <td>Sampling creativity.</td>
+                </tr>
+                <tr>
+                  <td><code>max_tokens</code> <span class="opt">opt</span></td>
+                  <td>integer</td>
+                  <td><code>4096</code></td>
+                  <td>Upper bound on generated tokens. Higher default than other providers.</td>
+                </tr>
+                <tr>
+                  <td><code>app_title</code> <span class="opt">opt</span></td>
+                  <td>string</td>
+                  <td><code>"RSRoute"</code></td>
+                  <td>App name reported to OpenRouter rankings.</td>
+                </tr>
+                <tr>
+                  <td><code>app_url</code> <span class="opt">opt</span></td>
+                  <td>string</td>
+                  <td><code>"https://www.rsroute.freedev.app/"</code></td>
+                  <td>App URL reported to OpenRouter rankings.</td>
+                </tr>
+                <tr>
+                  <td><code>app_categories</code> <span class="opt">opt</span></td>
+                  <td>array&lt;string&gt; | null</td>
+                  <td><code>null</code></td>
+                  <td>Optional category tags for the OpenRouter dashboard.</td>
+                </tr>
+                <tr>
+                  <td><code>max_retries</code> <span class="opt">opt</span></td>
+                  <td>integer</td>
+                  <td><code>2</code></td>
+                  <td>Automatic retry attempts on upstream failure.</td>
+                </tr>
+                <tr>
+                  <td><code>providers</code> <span class="opt">opt</span></td>
+                  <td>object | null</td>
+                  <td><code>null</code></td>
+                  <td>OpenRouter provider preferences, e.g. <code>{"order": ["OpenAI"]}</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>end_point</code> <span class="opt">opt</span></td>
+                  <td>string | null</td>
+                  <td><code>null</code></td>
+                  <td>Override the OpenRouter base URL (proxy / self-hosted).</td>
+                </tr>
+                <tr>
+                  <td><code>tools_info</code> <span class="opt">agent only</span></td>
+                  <td>array&lt;object&gt;</td>
+                  <td><code>null</code></td>
+                  <td>List of <code>{"name", "description"}</code> pairs.</td>
+                </tr>
+                <tr>
+                  <td><code>top_p</code></td>
+                  <td colspan="3" style="color:var(--text-mute)">
+                    Not supported. Removed from the route signature and from the parameter info.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="models">
+          <div class="guide-section-head">
+            <span class="eyebrow">Model ids</span>
+            <h2>Choosing a model</h2>
+          </div>
+          <p>
+            OpenRouter model ids are namespaced as <code class="mono">vendor/model</code>. Pass any
+            id OpenRouter serves — no code change, just a different
+            <code class="mono">model</code> value.
+          </p>
+          <div class="code-wrap">
+<pre><code><span class="tok-com"># Default</span>
+<span class="tok-str">"deepseek/deepseek-v4.1-flash"</span>
+
+<span class="tok-com"># Other examples</span>
+<span class="tok-str">"openai/gpt-4o-mini"</span>
+<span class="tok-str">"anthropic/claude-sonnet-4"</span>
+<span class="tok-str">"meta-llama/llama-3.3-70b-instruct"</span></code></pre>
+          </div>
+
+          <h3>Provider routing</h3>
+          <p>
+            The <code class="mono">providers</code> object is forwarded to OpenRouter's own
+            routing layer. Use it to prefer or exclude specific upstreams.
+          </p>
+          <div class="code-wrap">
+<pre><code>{
+  <span class="tok-key">"providers"</span>: {
+    <span class="tok-key">"order"</span>: [<span class="tok-str">"DeepSeek"</span>, <span class="tok-str">"Together"</span>],
+    <span class="tok-key">"allow_fallbacks"</span>: <span class="tok-num">true</span>
+  }
+}</code></pre>
+          </div>
+          <div class="callout">
+            <span class="callout__title">Passed through unvalidated</span>
+            <p>
+              RSRoute does not inspect the <code>providers</code> object — it hands it straight to
+              the OpenRouter client. Invalid keys surface as a provider error.
+            </p>
+          </div>
+
+          <h3>App attribution</h3>
+          <p>
+            <code class="mono">app_title</code>, <code class="mono">app_url</code> and
+            <code class="mono">app_categories</code> are reported to OpenRouter so your usage shows
+            up correctly in its rankings and dashboard.
+          </p>
+          <div class="code-wrap">
+<pre><code>{
+  <span class="tok-key">"app_title"</span>: <span class="tok-str">"My App"</span>,
+  <span class="tok-key">"app_url"</span>: <span class="tok-str">"https://example.com"</span>,
+  <span class="tok-key">"app_categories"</span>: [<span class="tok-str">"coding"</span>, <span class="tok-str">"research"</span>]
+}</code></pre>
+          </div>
+        </section>
+
+        <section id="rest">
+          <div class="guide-section-head">
+            <span class="eyebrow">Plain HTTP</span>
+            <h2>REST example</h2>
+          </div>
+          <div class="code-wrap">
+            <div class="code-tabs" role="tablist" aria-label="OpenRouter REST examples">
+              <button class="code-tab" role="tab" aria-selected="true" aria-controls="panel-o-py" id="tab-o-py" type="button">Python</button>
+              <button class="code-tab" role="tab" aria-selected="false" aria-controls="panel-o-js" id="tab-o-js" type="button">JavaScript</button>
+              <button class="code-tab" role="tab" aria-selected="false" aria-controls="panel-o-curl" id="tab-o-curl" type="button">cURL</button>
+            </div>
+
+            <div class="code-panel is-active" id="panel-o-py" role="tabpanel" aria-labelledby="tab-o-py">
+<pre><code><span class="tok-key">import</span> requests
+
+resp = requests.<span class="tok-fn">post</span>(
+    <span class="tok-str">"http://localhost:8000/v1/openrouter/chat"</span>,
+    json={
+        <span class="tok-str">"query"</span>: <span class="tok-str">"Explain mixture-of-experts"</span>,
+        <span class="tok-str">"master_key"</span>: <span class="tok-str">"RSRoute_my_key"</span>,
+        <span class="tok-str">"model"</span>: <span class="tok-str">"deepseek/deepseek-v4.1-flash"</span>,
+        <span class="tok-str">"temperature"</span>: <span class="tok-num">0.7</span>,
+        <span class="tok-str">"max_tokens"</span>: <span class="tok-num">4096</span>,
+        <span class="tok-str">"app_title"</span>: <span class="tok-str">"My App"</span>,
+        <span class="tok-str">"app_url"</span>: <span class="tok-str">"https://example.com"</span>,
+        <span class="tok-str">"max_retries"</span>: <span class="tok-num">2</span>,
+        <span class="tok-str">"providers"</span>: {<span class="tok-str">"order"</span>: [<span class="tok-str">"DeepSeek"</span>]},
+    },
+    timeout=<span class="tok-num">60</span>,
+)
+
+data = resp.<span class="tok-fn">json</span>()
+<span class="tok-key">if</span> data[<span class="tok-str">"error"</span>] != <span class="tok-str">"No Error Found"</span>:
+    <span class="tok-key">raise</span> <span class="tok-fn">RuntimeError</span>(data[<span class="tok-str">"error"</span>])
+
+<span class="tok-fn">print</span>(data[<span class="tok-str">"content"</span>])</code></pre>
+            </div>
+
+            <div class="code-panel" id="panel-o-js" role="tabpanel" aria-labelledby="tab-o-js">
+<pre><code><span class="tok-key">const</span> resp = <span class="tok-key">await</span> <span class="tok-fn">fetch</span>(<span class="tok-str">"http://localhost:8000/v1/openrouter/chat"</span>, {
+  method: <span class="tok-str">"POST"</span>,
+  headers: { <span class="tok-str">"Content-Type"</span>: <span class="tok-str">"application/json"</span> },
+  body: <span class="tok-fn">JSON.stringify</span>({
+    query: <span class="tok-str">"Explain mixture-of-experts"</span>,
+    master_key: <span class="tok-str">"RSRoute_my_key"</span>,
+    model: <span class="tok-str">"deepseek/deepseek-v4.1-flash"</span>,
+    temperature: <span class="tok-num">0.7</span>,
+    max_tokens: <span class="tok-num">4096</span>,
+    app_title: <span class="tok-str">"My App"</span>,
+    app_url: <span class="tok-str">"https://example.com"</span>,
+    max_retries: <span class="tok-num">2</span>,
+    providers: { order: [<span class="tok-str">"DeepSeek"</span>] },
+  }),
+});
+
+<span class="tok-key">const</span> data = <span class="tok-key">await</span> resp.<span class="tok-fn">json</span>();
+<span class="tok-key">if</span> (data.error !== <span class="tok-str">"No Error Found"</span>) {
+  <span class="tok-key">throw new</span> <span class="tok-fn">Error</span>(data.error);
+}
+
+console.<span class="tok-fn">log</span>(data.content);</code></pre>
+            </div>
+
+            <div class="code-panel" id="panel-o-curl" role="tabpanel" aria-labelledby="tab-o-curl">
+<pre><code>curl -X POST http://localhost:8000/v1/openrouter/chat \
+  -H <span class="tok-str">"Content-Type: application/json"</span> \
+  -d <span class="tok-str">'{
+    "query": "Explain mixture-of-experts",
+    "master_key": "RSRoute_my_key",
+    "model": "deepseek/deepseek-v4.1-flash",
+    "temperature": 0.7,
+    "max_tokens": 4096,
+    "app_title": "My App",
+    "app_url": "https://example.com",
+    "max_retries": 2,
+    "providers": { "order": ["DeepSeek"] }
+  }'</span></code></pre>
+            </div>
+          </div>
+
+          <h3>Agent call</h3>
+          <div class="code-wrap">
+<pre><code>resp = requests.<span class="tok-fn">post</span>(
+    <span class="tok-str">"http://localhost:8000/v1/openrouter/agent"</span>,
+    json={
+        <span class="tok-str">"query"</span>: <span class="tok-str">"Search the latest open-weight model releases"</span>,
+        <span class="tok-str">"master_key"</span>: <span class="tok-str">"RSRoute_my_key"</span>,
+        <span class="tok-str">"model"</span>: <span class="tok-str">"deepseek/deepseek-v4.1-flash"</span>,
+        <span class="tok-str">"tools_info"</span>: [
+            {<span class="tok-str">"name"</span>: <span class="tok-str">"web_search"</span>,
+             <span class="tok-str">"description"</span>: <span class="tok-str">"Search the web"</span>},
+        ],
+    },
+    timeout=<span class="tok-num">120</span>,
+)
+
+<span class="tok-fn">print</span>(resp.<span class="tok-fn">json</span>()[<span class="tok-str">"tool_calls"</span>])</code></pre>
+          </div>
+        </section>
+
+        <section id="client">
+          <div class="guide-section-head">
+            <span class="eyebrow">rsroute client</span>
+            <h2>rsroute client</h2>
+          </div>
+          <div class="code-wrap">
+<pre><code><span class="tok-key">from</span> rsroute.chat_models <span class="tok-key">import</span> ChatOpenRouter
+
+openrouter = ChatOpenRouter(
+    model=<span class="tok-str">"deepseek/deepseek-v4.1-flash"</span>,
+    temperature=<span class="tok-num">0.7</span>,
+    max_tokens=<span class="tok-num">4096</span>,
+    app_title=<span class="tok-str">"My App"</span>,
+    app_url=<span class="tok-str">"https://example.com"</span>,
+    app_categories=[<span class="tok-str">"coding"</span>],
+    max_retries=<span class="tok-num">2</span>,
+    providers={<span class="tok-str">"order"</span>: [<span class="tok-str">"DeepSeek"</span>]},
+)
+
+result = openrouter.<span class="tok-fn">invoke</span>(query=<span class="tok-str">"Hello OpenRouter!"</span>)
+<span class="tok-fn">print</span>(result[<span class="tok-str">"content"</span>])</code></pre>
+          </div>
+          <p class="code-caption">
+            <code class="mono">OpenRouter</code> is an alias for <code class="mono">ChatOpenRouter</code>.
+          </p>
+
+          <h3>Agent</h3>
+          <div class="code-wrap">
+<pre><code><span class="tok-key">from</span> rsroute.agents <span class="tok-key">import</span> OpenRouterAgent
+
+agent = OpenRouterAgent(
+    tools=[web_search],
+    model=<span class="tok-str">"deepseek/deepseek-v4.1-flash"</span>,
+    providers={<span class="tok-str">"order"</span>: [<span class="tok-str">"DeepSeek"</span>]},
+)
+
+result = agent.<span class="tok-fn">invoke</span>(query=<span class="tok-str">"Search the latest open-weight model releases"</span>)
+<span class="tok-fn">print</span>(result[<span class="tok-str">"content"</span>])
+<span class="tok-fn">print</span>(result[<span class="tok-str">"tools_used"</span>])</code></pre>
+          </div>
+          <p class="code-caption">
+            <code class="mono">ChatOpenRouterAgent</code> is an alias for
+            <code class="mono">OpenRouterAgent</code>.
+          </p>
+          <p>
+            Constructor reference:
+            <a class="inline-link" href="../chat_model/index.html">chat models</a> and
+            <a class="inline-link" href="../agent/index.html">agents</a>.
+          </p>
+        </section>
+
+        <section id="notes">
+          <div class="guide-section-head">
+            <span class="eyebrow">Gotchas</span>
+            <h2>Notes</h2>
+          </div>
+          <ul>
+            <li>
+              <code class="mono">/v1/openrouter/parameters</code> and
+              <code class="mono">/v1/openrouter/parameter</code> both work.
+            </li>
+            <li>
+              Missing <code class="mono">OPENROUTER_API_KEY</code> returns
+              <code class="mono">error: "No OpenRouter API Key Found, try to edit `.env`"</code>
+              with HTTP 200.
+            </li>
+            <li>
+              <code class="mono">top_p</code> is removed from this route, same as Groq.
+            </li>
+            <li>
+              The parameter endpoint rewrites the <code class="mono">model</code>,
+              <code class="mono">max_tokens</code> and <code class="mono">temperature</code>
+              descriptions to name the OpenRouter defaults.
+            </li>
+            <li>Embedding endpoints are not implemented.</li>
+          </ul>
+        </section>
+
+        <nav class="guide-pager" aria-label="Guide pagination">
+          <a href="../groq/index.html">
+            <span class="dir">Previous</span>
+            <span class="label">← Groq guide</span>
+          </a>
+          <a class="next" href="../chat_model/index.html">
+            <span class="dir">Next</span>
+            <span class="label">Chat models guide →</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="../../index.html" aria-label="RSRoute home">
+            <img src="../../assets/img/logo.svg" alt="" width="34" height="34" />
+            <span>RSRoute</span>
+          </a>
+          <p>
+            Self-hostable FastAPI gateway providing a unified REST API for multiple LLM
+            providers, powered by LangChain.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Guide</h4>
+          <ul>
+            <li><a href="../index.html">Overview</a></li>
+            <li><a href="../chat_model/index.html">Chat models</a></li>
+            <li><a href="../agent/index.html">Agents</a></li>
+            <li><a href="../index.html#parameters">Parameters</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Providers</h4>
+          <ul>
+            <li><a href="../gemini/index.html">Google Gemini</a></li>
+            <li><a href="../mistral/index.html">MistralAI</a></li>
+            <li><a href="../groq/index.html">Groq</a></li>
+            <li><a href="index.html">OpenRouter</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="../../index.html#faq">FAQ</a></li>
+            <li><a href="../../index.html#api">API reference</a></li>
+            <li><a href="https://www.github.com/ItzRustam/rsroute" target="_blank" rel="noopener noreferrer">Server repo</a></li>
+            <li><a href="https://www.github.com/ItzRustam/rsroute-package" target="_blank" rel="noopener noreferrer">Python client</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; 2026 ItzRustam (Rustam Bhadouriya) &middot; BSD-3-Clause</span>
+        <div class="badge-row">
+          <span class="chip">v1-starter-version</span>
+          <span class="chip">in development</span>
+          <span class="chip chip--ok">&#9679; self-hosted</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <button class="to-top" id="toTop" type="button" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 19V5M6 11l6-6 6 6" />
+    </svg>
+  </button>
+
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/guide.js"></script>
+</body>
+</html>

@@ -848,6 +848,38 @@ td code, .mono {
 .method--get { background: var(--ok-soft); color: var(--ok); }
 .method--post { background: var(--accent-soft); color: var(--accent); }
 
+.table-note {
+  margin-top: 0.9rem;
+  font-size: 0.88rem;
+  color: var(--text-mute);
+  max-width: 78ch;
+}
+
+/* Parameter tables carry long values (URLs, model ids) — let them wrap. */
+.table--wrap { min-width: 620px; }
+.table--wrap td:first-child { white-space: nowrap; }
+.table--wrap td:nth-child(3) code,
+.table--wrap td:last-child code {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.table--wrap td:last-child { min-width: 18ch; }
+
+/* Endpoint matrix: tighter cells so all five columns fit without scrolling. */
+.table--api { min-width: 620px; }
+.table--api th,
+.table--api td { padding-inline: 0.7rem; }
+.table--api td { white-space: normal; }
+.table--api td code {
+  display: inline-block;
+  margin-top: 0.3rem;
+  font-size: 0.78em;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.table--api td:first-child { white-space: nowrap; }
+.table--api td:last-child code { white-space: normal; overflow-wrap: anywhere; }
+
 /* ---------- Steps ---------- */
 .steps { display: grid; gap: 1.25rem; counter-reset: step; }
 .step {

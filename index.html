@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>RSRoute — One API for every LLM</title>
   <meta name="description" content="RSRoute is a self-hostable FastAPI gateway that puts one unified REST API in front of Gemini, Mistral, Groq and OpenRouter. Centralised keys, one master key, zero provider lock-in." />
+  <meta name="keywords" content="RSRoute, LLM gateway, FastAPI, OpenRouter, Gemini, Mistral, Groq, LangChain, self-hosted, unified API" />
   <meta name="theme-color" content="#f7f8fc" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#070a12" media="(prefers-color-scheme: dark)" />
   <meta name="color-scheme" content="light dark" />
@@ -44,6 +45,8 @@
         <a href="#overview">Overview</a>
         <a href="#features">Features</a>
         <a href="#api">API</a>
+        <a href="#openrouter">OpenRouter</a>
+        <a href="guide/index.html">Guide</a>
         <a href="#quickstart">Quickstart</a>
         <a href="#faq">FAQ</a>
       </nav>
@@ -156,6 +159,7 @@
                   <span class="pill">gemini</span>
                   <span class="pill">mistral</span>
                   <span class="pill">groq</span>
+                  <span class="pill">openrouter</span>
                 </div>
               </div>
               <div class="route-card__foot">
@@ -177,7 +181,7 @@
         <span class="provider-name">Google Gemini</span>
         <span class="provider-name">MistralAI</span>
         <span class="provider-name">Groq</span>
-        <span class="provider-name">OpenRouter</span>
+        <span class="provider-name">OpenRouter <span class="chip chip--ok">new</span></span>
         <span class="provider-name">OpenAI <span class="chip">soon</span></span>
         <span class="provider-name">HuggingFace <span class="chip">soon</span></span>
       </div>
@@ -253,7 +257,8 @@
             <h3>One API, many providers</h3>
             <p>
               The same request shape works for Gemini, Mistral, Groq and OpenRouter.
-              Switching provider is a URL change, not a refactor.
+              Switching provider is a URL change, not a refactor — and OpenRouter alone
+              opens up hundreds of models behind that one route.
             </p>
           </article>
 
@@ -348,7 +353,7 @@
         </div>
 
         <div class="table-scroll reveal">
-          <table>
+          <table class="table--api">
             <caption class="sr-only">RSRoute endpoints by provider</caption>
             <thead>
               <tr>
@@ -362,33 +367,40 @@
             <tbody>
               <tr>
                 <td><strong>Google Gemini</strong></td>
-                <td><span class="method method--post">POST</span> <code>/v1/gemini/chat</code></td>
-                <td><span class="method method--post">POST</span> <code>/v1/gemini/agent</code></td>
-                <td><span class="method method--get">GET</span> <code>/v1/gemini/parameter</code></td>
+                <td><span class="method method--post">POST</span> <code>/v1/<wbr>gemini/<wbr>chat</code></td>
+                <td><span class="method method--post">POST</span> <code>/v1/<wbr>gemini/<wbr>agent</code></td>
+                <td><span class="method method--get">GET</span> <code>/v1/<wbr>gemini/<wbr>parameter</code></td>
                 <td><code>gemini-3.5-flash-lite</code></td>
               </tr>
               <tr>
                 <td><strong>MistralAI</strong></td>
-                <td><span class="method method--post">POST</span> <code>/v1/mistral/chat</code></td>
-                <td><span class="method method--post">POST</span> <code>/v1/mistral/agent</code></td>
-                <td><span class="method method--get">GET</span> <code>/v1/mistral/parameter</code></td>
+                <td><span class="method method--post">POST</span> <code>/v1/<wbr>mistral/<wbr>chat</code></td>
+                <td><span class="method method--post">POST</span> <code>/v1/<wbr>mistral/<wbr>agent</code></td>
+                <td><span class="method method--get">GET</span> <code>/v1/<wbr>mistral/<wbr>parameter</code></td>
                 <td><code>mistral-small-2603</code></td>
               </tr>
               <tr>
                 <td><strong>Groq</strong></td>
-                <td><span class="method method--post">POST</span> <code>/v1/groq/chat</code></td>
-                <td><span class="method method--post">POST</span> <code>/v1/groq/agent</code></td>
-                <td><span class="method method--get">GET</span> <code>/v1/groq/parameters</code></td>
+                <td><span class="method method--post">POST</span> <code>/v1/<wbr>groq/<wbr>chat</code></td>
+                <td><span class="method method--post">POST</span> <code>/v1/<wbr>groq/<wbr>agent</code></td>
+                <td><span class="method method--get">GET</span> <code>/v1/<wbr>groq/<wbr>parameters</code></td>
                 <td><code>openai/gpt-oss-120b</code></td>
               </tr>
               <tr>
-                <td><strong>OpenRouter</strong></td>
-                <td colspan="3" style="color:var(--text-mute)">Library class only — HTTP route not yet wired</td>
+                <td><strong>OpenRouter</strong> <span class="chip chip--ok">new</span></td>
+                <td><span class="method method--post">POST</span> <code>/v1/<wbr>openrouter/<wbr>chat</code></td>
+                <td><span class="method method--post">POST</span> <code>/v1/<wbr>openrouter/<wbr>agent</code></td>
+                <td><span class="method method--get">GET</span> <code>/v1/<wbr>openrouter/<wbr>parameters</code></td>
                 <td><code>deepseek/deepseek-v4.1-flash</code></td>
               </tr>
             </tbody>
           </table>
         </div>
+
+        <p class="table-note reveal">
+          OpenRouter also accepts <code class="mono">/v1/openrouter/parameter</code> as an alias for
+          the parameters endpoint, matching the Gemini and Mistral routes.
+        </p>
 
         <div class="grid grid--2" style="margin-top:clamp(1.5rem,3vw,2.5rem)">
           <div class="feature-list reveal">
@@ -444,6 +456,149 @@
             Auth failures, missing provider keys and provider exceptions all return
             <strong>HTTP 200</strong> with <code class="mono">error</code> populated and
             <code class="mono">login: false</code>. Clients must inspect the body, not the status code.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= OPENROUTER ================= -->
+    <section class="section section--tight" id="openrouter">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">New provider</span>
+          <h2>OpenRouter is now a first-class route.</h2>
+          <p>
+            One key, hundreds of models. OpenRouter aggregates frontier and open-weight
+            models behind a single API — and RSRoute now exposes it with the exact same
+            envelope, auth and agent contract as every other provider.
+          </p>
+        </div>
+
+        <div class="grid grid--2" style="align-items:start">
+          <div class="feature-list reveal">
+            <div class="feature-row">
+              <span class="feature-row__num">01</span>
+              <div>
+                <h3>Hundreds of models, one route</h3>
+                <p>
+                  Point <code class="mono">model</code> at any OpenRouter model id —
+                  <code class="mono">deepseek/deepseek-v4.1-flash</code> is the default,
+                  but <code class="mono">openai/gpt-4o-mini</code>,
+                  <code class="mono">anthropic/claude-*</code> and open-weight models work the same way.
+                </p>
+              </div>
+            </div>
+
+            <div class="feature-row">
+              <span class="feature-row__num">02</span>
+              <div>
+                <h3>Provider routing preferences</h3>
+                <p>
+                  Pass <code class="mono">providers</code> to steer OpenRouter's own routing —
+                  for example <code class="mono">{"order": ["OpenAI"]}</code> to prefer a
+                  specific upstream, or to avoid ones you don't want.
+                </p>
+              </div>
+            </div>
+
+            <div class="feature-row">
+              <span class="feature-row__num">03</span>
+              <div>
+                <h3>App attribution built in</h3>
+                <p>
+                  <code class="mono">app_title</code>, <code class="mono">app_url</code> and
+                  <code class="mono">app_categories</code> are forwarded to OpenRouter so your
+                  usage shows up correctly in its rankings and dashboard.
+                </p>
+              </div>
+            </div>
+
+            <div class="feature-row">
+              <span class="feature-row__num">04</span>
+              <div>
+                <h3>Retries and custom base URL</h3>
+                <p>
+                  <code class="mono">max_retries</code> defaults to <code class="mono">2</code> for
+                  transient upstream failures, and <code class="mono">end_point</code> lets you
+                  override the base URL when you need a proxy.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="code-wrap reveal">
+            <div class="code-tabs" role="tablist" aria-label="OpenRouter examples">
+              <button class="code-tab" role="tab" aria-selected="true" aria-controls="panel-or-client" id="tab-or-client" type="button">Python client</button>
+              <button class="code-tab" role="tab" aria-selected="false" aria-controls="panel-or-http" id="tab-or-http" type="button">Raw HTTP</button>
+              <button class="code-tab" role="tab" aria-selected="false" aria-controls="panel-or-agent" id="tab-or-agent" type="button">Agent</button>
+            </div>
+
+            <div class="code-panel is-active" id="panel-or-client" role="tabpanel" aria-labelledby="tab-or-client">
+<pre><code><span class="tok-key">from</span> rsroute.chat_models <span class="tok-key">import</span> ChatOpenRouter
+
+openrouter = ChatOpenRouter(
+    model=<span class="tok-str">"deepseek/deepseek-v4.1-flash"</span>,  <span class="tok-com"># default</span>
+    temperature=<span class="tok-num">0.7</span>,
+    max_tokens=<span class="tok-num">4096</span>,
+    app_title=<span class="tok-str">"My App"</span>,
+    app_url=<span class="tok-str">"https://example.com"</span>,
+    providers={<span class="tok-str">"order"</span>: [<span class="tok-str">"DeepSeek"</span>]},
+)
+
+<span class="tok-fn">print</span>(openrouter.<span class="tok-fn">invoke</span>(query=<span class="tok-str">"Hello OpenRouter!"</span>))</code></pre>
+            </div>
+
+            <div class="code-panel" id="panel-or-http" role="tabpanel" aria-labelledby="tab-or-http">
+<pre><code><span class="tok-key">import</span> requests
+
+resp = requests.<span class="tok-fn">post</span>(
+    <span class="tok-str">"http://localhost:8000/v1/openrouter/chat"</span>,
+    json={
+        <span class="tok-str">"query"</span>: <span class="tok-str">"Explain mixture-of-experts"</span>,
+        <span class="tok-str">"master_key"</span>: <span class="tok-str">"RSRoute_my_key"</span>,
+        <span class="tok-str">"model"</span>: <span class="tok-str">"deepseek/deepseek-v4.1-flash"</span>,
+        <span class="tok-str">"temperature"</span>: <span class="tok-num">0.7</span>,
+        <span class="tok-str">"max_tokens"</span>: <span class="tok-num">4096</span>,
+        <span class="tok-str">"app_title"</span>: <span class="tok-str">"My App"</span>,
+        <span class="tok-str">"app_url"</span>: <span class="tok-str">"https://example.com"</span>,
+        <span class="tok-str">"max_retries"</span>: <span class="tok-num">2</span>,
+        <span class="tok-str">"providers"</span>: {<span class="tok-str">"order"</span>: [<span class="tok-str">"DeepSeek"</span>]},
+    },
+    timeout=<span class="tok-num">60</span>,
+)
+
+<span class="tok-fn">print</span>(resp.<span class="tok-fn">json</span>()[<span class="tok-str">"content"</span>])</code></pre>
+            </div>
+
+            <div class="code-panel" id="panel-or-agent" role="tabpanel" aria-labelledby="tab-or-agent">
+<pre><code><span class="tok-key">from</span> rsroute.agents <span class="tok-key">import</span> OpenRouterAgent
+
+openrouter_agent = OpenRouterAgent(
+    tools=[web_search],
+    model=<span class="tok-str">"deepseek/deepseek-v4.1-flash"</span>,
+    max_tool_calls=<span class="tok-num">10</span>,  <span class="tok-com"># default</span>
+)
+
+<span class="tok-fn">print</span>(openrouter_agent.<span class="tok-fn">invoke</span>(
+    query=<span class="tok-str">"Search the latest news on open-weight models"</span>
+))</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="card reveal" style="margin-top:clamp(1.5rem,3vw,2.5rem);border-left:3px solid var(--accent)">
+          <h3 style="margin-top:0">One extra environment variable</h3>
+          <p style="margin-top:.5rem">
+            Add <code class="mono">OPENROUTER_API_KEY</code> to your <code class="mono">.env</code>
+            alongside the other provider keys. If it's missing, the OpenRouter routes return
+            <code class="mono">error: "No OpenRouter API Key Found, try to edit `.env`"</code>
+            instead of failing silently.
+          </p>
+          <p style="margin-top:.75rem">
+            Every accepted field, its type and its default is documented in the
+            <a href="guide/chat_model/" style="color:var(--accent);text-decoration:underline">chat model guide</a>
+            and the
+            <a href="guide/agent/" style="color:var(--accent);text-decoration:underline">agent guide</a>.
           </p>
         </div>
       </div>
@@ -529,7 +684,7 @@ rsroute_token=RSRoute_my_key</code></pre>
 
             <div class="code-panel is-active" id="panel-chat" role="tabpanel" aria-labelledby="tab-chat">
 <pre><code><span class="tok-key">from</span> rsroute.chat_models <span class="tok-key">import</span> (
-    ChatGemini, ChatMistral, ChatGroq,
+    ChatGemini, ChatMistral, ChatGroq, ChatOpenRouter,
 )
 
 <span class="tok-com"># Gemini</span>
@@ -544,12 +699,19 @@ groq = ChatGroq(
     model=<span class="tok-str">"openai/gpt-oss-120b"</span>,
     temperature=<span class="tok-num">0.7</span>,
 )
-<span class="tok-fn">print</span>(groq.<span class="tok-fn">invoke</span>(query=<span class="tok-str">"Hello Groq!"</span>))</code></pre>
+<span class="tok-fn">print</span>(groq.<span class="tok-fn">invoke</span>(query=<span class="tok-str">"Hello Groq!"</span>))
+
+<span class="tok-com"># OpenRouter — hundreds of models behind one route</span>
+openrouter = ChatOpenRouter(
+    model=<span class="tok-str">"deepseek/deepseek-v4.1-flash"</span>,
+    temperature=<span class="tok-num">0.7</span>,
+)
+<span class="tok-fn">print</span>(openrouter.<span class="tok-fn">invoke</span>(query=<span class="tok-str">"Hello OpenRouter!"</span>))</code></pre>
             </div>
 
             <div class="code-panel" id="panel-agent" role="tabpanel" aria-labelledby="tab-agent">
 <pre><code><span class="tok-key">from</span> rsroute.agents <span class="tok-key">import</span> (
-    GeminiAgent, MistralAgent, GroqAgent,
+    GeminiAgent, MistralAgent, GroqAgent, OpenRouterAgent,
 )
 
 <span class="tok-com"># Your own tool — the client runs it for you</span>
@@ -570,6 +732,14 @@ mistral_agent = MistralAgent(
 )
 <span class="tok-fn">print</span>(mistral_agent.<span class="tok-fn">invoke</span>(
     query=<span class="tok-str">"What is the weather in Paris?"</span>
+))
+
+openrouter_agent = OpenRouterAgent(
+    tools=[web_search],
+    model=<span class="tok-str">"deepseek/deepseek-v4.1-flash"</span>,
+)
+<span class="tok-fn">print</span>(openrouter_agent.<span class="tok-fn">invoke</span>(
+    query=<span class="tok-str">"Search the latest open-weight model releases"</span>
 ))</code></pre>
             </div>
 
@@ -670,6 +840,13 @@ data = resp.<span class="tok-fn">json</span>()
                 <code class="mono">from rsroute.agents import GeminiAgent</code>.
                 It reads the key from <code class="mono">.env</code> automatically.
               </p>
+              <p>
+                Every provider has a matching pair of classes:
+                <code class="mono">ChatGemini</code> / <code class="mono">GeminiAgent</code>,
+                <code class="mono">ChatMistral</code> / <code class="mono">MistralAgent</code>,
+                <code class="mono">ChatGroq</code> / <code class="mono">GroqAgent</code>, and
+                <code class="mono">ChatOpenRouter</code> / <code class="mono">OpenRouterAgent</code>.
+              </p>
             </div>
           </details>
 
@@ -700,8 +877,31 @@ data = resp.<span class="tok-fn">json</span>()
             <div class="faq__body">
               <p>
                 Both are placeholder stubs in the current tree — license headers only, not wired
-                to routes. OpenRouter has a working client class but no HTTP router yet. Embedding
-                endpoints are marked "coming soon" in the root index.
+                to routes. Embedding endpoints are marked "coming soon" in the root index.
+              </p>
+              <p>
+                OpenRouter, by contrast, is fully wired: <code class="mono">/v1/openrouter/chat</code>,
+                <code class="mono">/v1/openrouter/agent</code> and
+                <code class="mono">/v1/openrouter/parameters</code> are live, and the Python client
+                ships <code class="mono">ChatOpenRouter</code> and <code class="mono">OpenRouterAgent</code>.
+              </p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Which models can I reach through OpenRouter?</summary>
+            <div class="faq__body">
+              <p>
+                Any model id OpenRouter serves. The gateway default is
+                <code class="mono">deepseek/deepseek-v4.1-flash</code>, but you can pass
+                <code class="mono">openai/gpt-4o-mini</code>, <code class="mono">anthropic/claude-*</code>,
+                open-weight models, or anything else in OpenRouter's catalogue — no code change,
+                just a different <code class="mono">model</code> value.
+              </p>
+              <p>
+                Use the <code class="mono">providers</code> object to control which upstream
+                OpenRouter routes to, and <code class="mono">app_title</code> /
+                <code class="mono">app_url</code> so your usage is attributed correctly.
               </p>
             </div>
           </details>
@@ -765,12 +965,22 @@ data = resp.<span class="tok-fn">json</span>()
         </div>
 
         <div class="footer-col">
+          <h4>Guide</h4>
+          <ul>
+            <li><a href="guide/index.html">Guide overview</a></li>
+            <li><a href="guide/chat_model/index.html">Chat models</a></li>
+            <li><a href="guide/agent/index.html">Agents</a></li>
+            <li><a href="guide/index.html#parameters">Parameters</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
           <h4>Providers</h4>
           <ul>
-            <li><a href="#api">Google Gemini</a></li>
-            <li><a href="#api">MistralAI</a></li>
-            <li><a href="#api">Groq</a></li>
-            <li><a href="#api">OpenRouter</a></li>
+            <li><a href="guide/gemini/index.html">Google Gemini</a></li>
+            <li><a href="guide/mistral/index.html">MistralAI</a></li>
+            <li><a href="guide/groq/index.html">Groq</a></li>
+            <li><a href="guide/openrouter/index.html">OpenRouter</a></li>
           </ul>
         </div>
 
